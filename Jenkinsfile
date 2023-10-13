@@ -1,13 +1,17 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:16' // Use Node 16 Docker image as the build agent
-        }
-    }
+    agent any
     stages {
-        stage('Build') {
+
+        stage('Clone the code') {
             steps {
-                sh 'npm install --save' // Run npm install --save
+                echo "Cloning the repo"
+                git url: "https://github.com/Sony-99/aws-elastic-beanstalk-express-js-sample.git", branch: "main"            }
+        }       
+        
+        stage('Build the code') {
+            steps {
+                echo "Building the image"
+                sh 'docker build -t "my-app" .' 
             }
         }
     }
